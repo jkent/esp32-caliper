@@ -16,6 +16,7 @@ const char TAG[] = "caliper";
 
 struct caliper {
     SLIST_ENTRY(caliper) entries;
+    const char *name;
     int clock_pin;
     int data_pin;
     caliper_cb_t cb;
@@ -84,6 +85,7 @@ static void IRAM_ATTR timer_isr_handler(void* arg)
 static void caliper_task(void* arg)
 {
     caliper_handle handle;
+    struct caliper_data data;
 
     while (true) {
         if (xQueueReceive(queue, &handle, portMAX_DELAY)) {
@@ -93,22 +95,22 @@ static void caliper_task(void* arg)
 
             portENTER_CRITICAL(&handle->mutex);
             int sample = handle->sample;
-            bool power = handle->power;
+            data.power = handle->power;
+            data.name = handle->name;
             portEXIT_CRITICAL(&handle->mutex);
 
-            bool sign = (sample >> 20) & 1;
-            bool units = (sample >> 23) & 1;
-            double value = sample & 0x0FFFFF;
-            if (sign) {
-                value *= -1;
+            data.units = (sample >> 23) & 1;
+            data.value = sample & 0x0FFFFF;
+            if ((sample >> 20) & 1) {
+                data.value *= -1;
             }
-            if (units == CALIPER_UNITS_MM) {
-                value = value / 100.0l;
+            if (data.units == CALIPER_UNITS_MM) {
+                data.value = data.value / 100.0l;
             } else {
-                value = value / 10000.0l;
+                data.value = data.value / 10000.0l;
             }
 
-            handle->cb(handle, value, units, power);
+            handle->cb(handle, &data);
         }
     }
 }
@@ -156,13 +158,14 @@ esp_err_t caliper_init(void)
 }
 
 
-caliper_handle caliper_add(int clock_pin, int data_pin, caliper_cb_t cb)
+caliper_handle caliper_add(const char *name, int clock_pin, int data_pin, caliper_cb_t cb)
 {
     caliper_handle handle = calloc(1, sizeof(struct caliper));
     assert(handle != NULL);
 
     vPortCPUInitializeMutex(&handle->mutex);
 
+    handle->name = name;
     handle->clock_pin = clock_pin;
     handle->data_pin = data_pin;
     handle->cb = cb;
@@ -194,33 +197,24 @@ void caliper_remove(caliper_handle handle)
     free(handle);
 }
 
-void caliper_poll(caliper_handle handle, double* value, caliper_units_t* units, bool* power)
+void caliper_poll(caliper_handle handle, caliper_data data)
 {
+    assert(data != NULL);
+
     portENTER_CRITICAL(&handle->mutex);
     int sample = handle->sample;
-    bool _power = handle->power;
+    data->power = handle->power;
+    data->name = handle->name;
     portEXIT_CRITICAL(&handle->mutex);
 
-    bool sign = (sample >> 20) & 1;
-    bool _units = (sample >> 23) & 1;
-    if (value) {
-        double _value = sample & 0x0FFFFF;
-        if (sign) {
-            _value *= -1;
-        }
-        if (units == CALIPER_UNITS_MM) {
-            _value = _value / 100.0l;
-        } else {
-            _value = _value / 10000.0l;
-        }
-        *value = _value;
+    data->units = (sample >> 23) & 1;
+    data->value = sample & 0x0FFFFF;
+    if ((sample >> 20) & 1) {
+        data->value *= -1;
     }
-
-    if (units) {
-        *units = _units;
-    }
-
-    if (power) {
-        *power = _power;
+    if (data->units == CALIPER_UNITS_MM) {
+        data->value = data->value / 100.0l;
+    } else {
+        data->value = data->value / 10000.0l;
     }
 }
