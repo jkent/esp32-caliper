@@ -10,6 +10,7 @@
 
 const char TAG[] = "caliper";
 
+#define MAX_IDLE_CLOCK 200000
 #define CALIPER_HOST SPI3_HOST
 #define TIMER_DIVIDER (16)
 #define TIMER_SCALE (TIMER_BASE_CLK / TIMER_DIVIDER)
@@ -69,7 +70,7 @@ static void IRAM_ATTR timer_isr_handler(void* arg)
 
     SLIST_FOREACH(handle, &caliper_head, entries) {
         portENTER_CRITICAL_ISR(&handle->mutex);
-        if (handle->power && (now - handle->last_seen >= 200000)) {
+        if (handle->power && (now - handle->last_seen >= MAX_IDLE_CLOCK)) {
             handle->power = false;
             xQueueSendFromISR(queue, &handle, NULL);
         }
