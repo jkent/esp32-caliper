@@ -107,7 +107,7 @@ static void caliper_task(void* arg)
             if (data.units == CALIPER_UNITS_MM) {
                 data.value = data.value / 100.0l;
             } else {
-                data.value = data.value / 10000.0l;
+                data.value = data.value / 2000.0l;
             }
 
             handle->cb(handle, &data);
@@ -215,6 +215,6 @@ void caliper_poll(caliper_handle handle, caliper_data data)
     if (data->units == CALIPER_UNITS_MM) {
         data->value = data->value / 100.0l;
     } else {
-        data->value = data->value / 10000.0l;
+        data->value = data->value / 2000.0l;
     }
 }
