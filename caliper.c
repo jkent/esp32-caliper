@@ -183,8 +183,7 @@ caliper_t caliper_add(caliper_config_t caliper_config)
     gpio_config_t config = {
         .pin_bit_mask = clock_pin_bit | data_pin_bit,
         .mode = GPIO_MODE_INPUT,
-        .pull_up_en = !caliper->config.invert,
-        .pull_down_en = caliper->config.invert,
+        .pull_up_en = true,
     };
     gpio_config(&config);
     gpio_set_intr_type(caliper->config.clock_pin, GPIO_INTR_ANYEDGE);

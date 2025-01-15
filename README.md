@@ -7,7 +7,53 @@ writing.
 
 ## Hardware Setup
 
-TODO
+There are a few ways to connect your calipers to the esp32.  They range from
+pull-up resistors, NPN transistors, comparators, and signal buffers.  I will
+only document the first two.
+
+First of all, its important to know the pinout of the digital caliper.  The
+most common out in the wild goes from GND, DAT, CLK, VCC.  Here is a crude
+drawing showing the pinout:
+
+```
+      ^
+     /|\ _________      _
+    |   |         \1234/ |_______
+    |   |      mm        |       S
+    |   |  0.00          |_______S
+     \  |________________|/ \
+      \ | /               \_/
+       \|/
+        v
+```
+
+So when you connect the caliper, VCC should be 1.5v.  You can choose to run the
+caliper off the battery, or even better, provide some sort of regulated supply.
+GND should be connected to your ESP32's GND.
+
+The caliper probably will work with a higher voltage, but its definately not
+recommended.  In my testing it causes the LCD contrast to darken, making the
+caliper unreadable.
+
+### Pull-ups
+
+Here is the quick and dirty circuit for using pull-up resistors in a
+non-inveted setup:
+
+![Pull-up Circuit](docs/pullup_schematic.png?raw=true)
+
+In testing, resistor values are critical.  I tested with 4.7K and 10K pull-up
+resistors and found the circuit to be unreliable.
+
+
+### NPN Transistors
+
+And here is the recommended circuit:
+
+![NPN Transistor Circuit](docs/transistor_schematic.png?raw=true)
+
+When using this circuit, you must set `invert = true` within your caliper
+config struct.
 
 ## Component Setup
 
