@@ -91,7 +91,7 @@ static void caliper_task(void* arg)
 
     while (!stop) {
         if (xQueueReceive(queue, &caliper, pdMS_TO_TICKS(100))) {
-            if (!caliper->config.callback) {
+            if (!caliper->config.cb) {
                 continue;
             }
 
@@ -101,18 +101,18 @@ static void caliper_task(void* arg)
             data.name = caliper->config.name;
             portEXIT_CRITICAL(&caliper->spinlock);
 
-            data.units = (sample >> 23) & 1;
+            data.unit = (sample >> 23) & 1;
             data.value = sample & 0x0FFFFF;
             if ((sample >> 20) & 1) {
                 data.value *= -1;
             }
-            if (data.units == CALIPER_UNITS_MM) {
+            if (data.unit == CALIPER_UNIT_MM) {
                 data.value = data.value / 100.0L;
             } else {
                 data.value = data.value / 2000.0L;
             }
 
-            caliper->config.callback(caliper, &data);
+            caliper->config.cb(caliper, &data);
         }
     }
 
@@ -236,12 +236,12 @@ void caliper_poll(caliper_t caliper, caliper_data_t data)
     data->name = caliper->config.name;
     portEXIT_CRITICAL(&caliper->spinlock);
 
-    data->units = (sample >> 23) & 1;
+    data->unit = (sample >> 23) & 1;
     data->value = sample & 0x0FFFFF;
     if ((sample >> 20) & 1) {
         data->value *= -1;
     }
-    if (data->units == CALIPER_UNITS_MM) {
+    if (data->unit == CALIPER_UNIT_MM) {
         data->value = data->value / 100.0l;
     } else {
         data->value = data->value / 2000.0l;
