@@ -37,8 +37,7 @@ caliper unreadable.
 
 ### Pull-ups
 
-Here is the quick and dirty circuit for using pull-up resistors in a
-non-inveted setup:
+Here is the quick and dirty circuit for using pull-up resistors:
 
 ![Pull-up Circuit](docs/pullup_schematic.png?raw=true)
 
