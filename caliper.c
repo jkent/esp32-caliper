@@ -221,7 +221,7 @@ void caliper_deinit(void)
         caliper_remove(caliper);
     }
 
-    // Optional: remove the gpio service -- left installed for other code
+    // Optional: remove the gpio service -- left installed for user's code
     // gpio_uninstall_isr_service();
 }
 
@@ -241,8 +241,8 @@ void caliper_poll(caliper_t caliper, caliper_data_t data)
         data->value *= -1;
     }
     if (data->unit == CALIPER_UNIT_MM) {
-        data->value = data->value / 100.0l;
+        data->value = data->value / 100.0L;
     } else {
-        data->value = data->value / 2000.0l;
+        data->value = data->value / 2000.0L;
     }
 }

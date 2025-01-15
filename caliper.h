@@ -22,12 +22,12 @@ struct caliper_config {
 
 struct caliper_data {
     const char *name;       /// Caliper name
+    bool power;             /// Caliper power state, true for ON, false for OFF
+                            ///      If OFF, value and unit are invalid
     double value;           /// Caliper current value
     caliper_unit_t unit;    /// Caliper unit mode, can be one of:
                             ///      CALIPER_UNIT_MM
                             ///      CALIPER_UNIT_INCH
-    bool power;             /// Caliper power state, true for ON, false for OFF
-                            ///      If OFF, value and units are invalid
 };
 
 esp_err_t caliper_init(void);

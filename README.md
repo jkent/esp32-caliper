@@ -100,7 +100,7 @@ the caliper print function:
 static void caliper_print(caliper_data_t data)
 {
     if (data->power) {
-        const char *unit = (data->units == CALIPER_UNIT_MM) ? "mm" : "in";
+        const char *unit = (data->unit == CALIPER_UNIT_MM) ? "mm" : "in";
         printf("%s: %.2f %s\n", data->name, data->value, unit);
     } else {
         printf("%s: OFF\n", data->name);
@@ -113,12 +113,12 @@ Lets look at the documentation for our data struct:
 ```c
 struct caliper_data {
     const char *name;       /// Caliper name
+    bool power;             /// Caliper power state, true for ON, false for OFF
+                            ///      If OFF, value and unit are invalid
     double value;           /// Caliper current value
     caliper_unit_t unit;    /// Caliper unit mode, can be one of:
                             ///      CALIPER_UNIT_MM
                             ///      CALIPER_UNIT_INCH
-    bool power;             /// Caliper power state, true for ON, false for OFF
-                            ///      If OFF, value and units are invalid
 };
 ```
 
