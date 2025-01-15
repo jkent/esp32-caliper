@@ -1,4 +1,10 @@
-idf_component_register(SRCS "src/caliper.c"
-                       INCLUDE_DIRS "include"
-                       PRIV_INCLUDE_DIRS "src"
-                       REQUIRES driver)
+idf_component_register(
+SRCS
+    "caliper.c"
+INCLUDE_DIRS
+    "."
+PRIV_REQUIRES
+    esp_driver_gpio
+    esp_driver_gptimer
+    esp_timer
+)
