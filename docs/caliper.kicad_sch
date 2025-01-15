@@ -5,11 +5,11 @@
   (paper "A4")
 
   (lib_symbols
-    (symbol "Device:Q_NPN_BCE" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
+    (symbol "Device:Q_NPN_EBC" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
       (property "Reference" "Q" (id 0) (at 5.08 1.27 0)
         (effects (font (size 1.27 1.27)) (justify left))
       )
-      (property "Value" "Q_NPN_BCE" (id 1) (at 5.08 -1.27 0)
+      (property "Value" "Q_NPN_EBC" (id 1) (at 5.08 -1.27 0)
         (effects (font (size 1.27 1.27)) (justify left))
       )
       (property "Footprint" "" (id 2) (at 5.08 2.54 0)
@@ -21,10 +21,10 @@
       (property "ki_keywords" "transistor NPN" (id 4) (at 0 0 0)
         (effects (font (size 1.27 1.27)) hide)
       )
-      (property "ki_description" "NPN transistor, base/collector/emitter" (id 5) (at 0 0 0)
+      (property "ki_description" "NPN transistor, emitter/base/collector" (id 5) (at 0 0 0)
         (effects (font (size 1.27 1.27)) hide)
       )
-      (symbol "Q_NPN_BCE_0_1"
+      (symbol "Q_NPN_EBC_0_1"
         (polyline
           (pts
             (xy 0.635 0.635)
@@ -67,17 +67,17 @@
           (fill (type none))
         )
       )
-      (symbol "Q_NPN_BCE_1_1"
-        (pin input line (at -5.08 0 0) (length 5.715)
-          (name "B" (effects (font (size 1.27 1.27))))
+      (symbol "Q_NPN_EBC_1_1"
+        (pin passive line (at 2.54 -5.08 90) (length 2.54)
+          (name "E" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at -5.08 0 0) (length 5.715)
+          (name "B" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
         )
         (pin passive line (at 2.54 5.08 270) (length 2.54)
           (name "C" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 2.54 -5.08 90) (length 2.54)
-          (name "E" (effects (font (size 1.27 1.27))))
           (number "3" (effects (font (size 1.27 1.27))))
         )
       )
@@ -519,13 +519,13 @@
     (pin "1" (uuid 8335536c-9c56-46e6-8f8d-cdf9c0b5a7f9))
   )
 
-  (symbol (lib_id "Device:Q_NPN_BCE") (at 191.77 121.92 0) (unit 1)
+  (symbol (lib_id "Device:Q_NPN_EBC") (at 191.77 121.92 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 4a7f1edb-4587-47ea-97db-4c8bebe01214)
     (property "Reference" "Q?" (id 0) (at 196.6214 121.0853 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
-    (property "Value" "Q_NPN_BCE" (id 1) (at 196.6214 123.6222 0)
+    (property "Value" "Q_NPN_EBC" (id 1) (at 196.85 123.19 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (property "Footprint" "" (id 2) (at 196.85 119.38 0)
@@ -628,13 +628,13 @@
     (pin "1" (uuid 3740e02f-6ab5-4e5a-92bd-476344030aa1))
   )
 
-  (symbol (lib_id "Device:Q_NPN_BCE") (at 181.61 114.3 0) (unit 1)
+  (symbol (lib_id "Device:Q_NPN_EBC") (at 181.61 114.3 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid c3fc18e4-72ab-4453-82d7-9983960b0e19)
     (property "Reference" "Q?" (id 0) (at 186.4614 113.4653 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
-    (property "Value" "Q_NPN_BCE" (id 1) (at 186.4614 116.0022 0)
+    (property "Value" "Q_NPN_EBC" (id 1) (at 186.69 115.57 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
     (property "Footprint" "" (id 2) (at 186.69 111.76 0)
@@ -699,10 +699,10 @@
       (reference "#PWR?") (unit 1) (value "+3.3V") (footprint "")
     )
     (path "/4a7f1edb-4587-47ea-97db-4c8bebe01214"
-      (reference "Q?") (unit 1) (value "Q_NPN_BCE") (footprint "")
+      (reference "Q?") (unit 1) (value "Q_NPN_EBC") (footprint "")
     )
     (path "/c3fc18e4-72ab-4453-82d7-9983960b0e19"
-      (reference "Q?") (unit 1) (value "Q_NPN_BCE") (footprint "")
+      (reference "Q?") (unit 1) (value "Q_NPN_EBC") (footprint "")
     )
     (path "/0dea59e4-0947-4b42-9006-e9933443abc1"
       (reference "R?") (unit 1) (value "1K") (footprint "")
